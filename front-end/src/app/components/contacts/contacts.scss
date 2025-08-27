@@ -1,0 +1,18 @@
+.contacts-content {
+    display: inline;
+    width: 45%;
+    float: left;
+    height: 80vh;
+}
+mat-paginator{
+  position: absolute;
+  bottom: 0;
+  right: 55%;
+}
+
+app-maps {
+  display: inline;
+    width: 50%;
+    float: right;
+    height: 80vh;
+}

@@ -1,0 +1,15 @@
+FROM node:20
+
+ENV NG_CLI_ANALYTICS=false
+
+LABEL maintainer="Jociel Fernandes <jociel@agencia3s.com.br>"
+LABEL version="lasted"
+
+RUN npm install -g @angular/cli
+
+COPY .docker/conf.d/front-init.sh ./start.sh
+RUN chmod +x ./start.sh
+
+EXPOSE 4200
+
+CMD ["sh", "./start.sh"]

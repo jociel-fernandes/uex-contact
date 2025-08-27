@@ -1,0 +1,24 @@
+<!-- front-end/src/app/dashboard/dashboard.html -->
+<mat-toolbar color="primary">
+  <span>UEX Contatos</span>
+  <span class="spacer"></span>
+
+  <button mat-icon-button (click)="openProfile()">
+    <mat-icon>account_circle</mat-icon>
+  </button>
+
+  <button mat-button routerLink="/logout">
+    <mat-icon>logout</mat-icon>
+    Sair
+  </button>
+</mat-toolbar>
+
+<mat-sidenav-container class="main-container">
+  <mat-sidenav #profileSidenav mode="over" position="end" class="profile-sidenav">
+    <app-profile-panel (closed)="profileSidenav.close()"></app-profile-panel>
+  </mat-sidenav>
+
+  <div class="dashboard-content" style="display:flex; height: calc(100vh - 64px);">
+    <app-contacts  style="width:100%;height:100%;"></app-contacts>
+  </div>
+</mat-sidenav-container>

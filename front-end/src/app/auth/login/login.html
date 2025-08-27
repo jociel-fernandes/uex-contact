@@ -1,0 +1,28 @@
+<div class="login-container">
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <h2>Login</h2>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Senha</mat-label>
+      <input matInput formControlName="password" type="password" />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading">
+      {{ loading ? 'Entrando...' : 'Login' }}
+    </button>
+
+    <div *ngIf="error" class="error-message">{{ error }}</div>
+
+    <p>
+      <a routerLink="/forgot-password">Esqueceu a senha?</a>
+    </p>
+    <p>
+      <a routerLink="/register">Registrar-se</a>
+    </p>
+  </form>
+</div>

@@ -1,0 +1,9 @@
+<div class="verify-email-container">
+  <h2>Verificação de Email</h2>
+
+  <p *ngIf="message">{{ message }}</p>
+
+  <button mat-raised-button color="primary" routerLink="/login" *ngIf="!loading">
+    Voltar para Login
+  </button>
+</div>

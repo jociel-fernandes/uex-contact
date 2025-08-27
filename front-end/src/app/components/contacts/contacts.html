@@ -1,0 +1,117 @@
+ <mat-sidenav-container class="contacts-sidenav-container" >
+  
+    <mat-sidenav #formSidenav mode="push" position="start" class="form-sidenav">
+      <mat-toolbar color="primary">Dafos do Contato</mat-toolbar>
+        <form [formGroup]="form" (ngSubmit)="save()" class="contact-form">
+          <div class="form-row">
+            <mat-form-field>
+              <input matInput placeholder="Nome" formControlName="name">
+            </mat-form-field>
+          </div>
+          <div class="form-row">
+            <mat-form-field>
+              <input matInput placeholder="CPF" formControlName="cpf">
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Email" formControlName="email">
+            </mat-form-field>
+          </div>
+    
+          <div class="form-row">
+            <mat-form-field>
+              <input matInput placeholder="Telefone" formControlName="phone">
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="CEP" formControlName="zip_code">
+            </mat-form-field>
+          </div>
+    
+          <div class="form-row">
+            <mat-form-field>
+              <input matInput placeholder="Endereço" formControlName="address">
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Número" formControlName="number">
+            </mat-form-field>
+          </div>
+    
+          <div class="form-row">
+            <mat-form-field>
+              <input matInput placeholder="Complemento" formControlName="complement">
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Bairro" formControlName="neighborhood">
+            </mat-form-field>
+          </div>
+    
+          <div class="form-row">
+            <mat-form-field>
+              <input matInput placeholder="Cidade" formControlName="city">
+            </mat-form-field>
+            <mat-form-field>
+              <input matInput placeholder="Estado" formControlName="state">
+            </mat-form-field>
+          </div>
+    
+          <mat-form-field *ngIf="contactTypes?.length">
+            <mat-label>Tipo de Contato</mat-label>
+            <mat-select formControlName="contact_type_id">
+              <mat-option *ngFor="let type of contactTypes" [value]="type.id">{{ type.name }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+    
+          <div class="form-actions">
+            <button mat-raised-button color="primary" type="submit">Salvar</button>
+            <button mat-button type="button" (click)="formSidenav.close()">Cancelar</button>
+          </div>
+        </form>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="contacts-content">
+          <div class="filter">
+            <mat-form-field>
+              <input matInput placeholder="Buscar contato..." (input)="search($event)">
+            </mat-form-field>
+            <button mat-icon-button color="primary" (click)="openFormSidenav()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+      
+          <table mat-table [dataSource]="contacts" class="mat-elevation-z1">
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef>Nome</th>
+              <td mat-cell *matCellDef="let contact" (click)="selectContact(contact)">{{ contact.name }}</td>
+            </ng-container>
+      
+            <ng-container matColumnDef="email">
+              <th mat-header-cell *matHeaderCellDef>Email</th>
+              <td mat-cell *matCellDef="let contact">{{ contact.email }}</td>
+            </ng-container>
+      
+            <ng-container matColumnDef="phone">
+              <th mat-header-cell *matHeaderCellDef>Telefone</th>
+              <td mat-cell *matCellDef="let contact">{{ contact.phone }}</td>
+            </ng-container>
+      
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Ações</th>
+              <td mat-cell *matCellDef="let contact">
+                <button mat-icon-button color="primary" (click)="edit(contact)">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="delete(contact)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </td>
+            </ng-container>
+      
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" style="cursor:pointer;"></tr>
+          </table>
+          <mat-paginator [length]="200" [pageSizeOptions]="[10, 50, 100]" aria-label="Selecione a Pagina"></mat-paginator>
+      </div>
+      <app-maps></app-maps>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  
+

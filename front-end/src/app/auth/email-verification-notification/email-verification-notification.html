@@ -1,0 +1,13 @@
+<div class="email-verification-container">
+  <h2>Verificação de Email</h2>
+
+  <p *ngIf="message">{{ message }}</p>
+
+  <button mat-raised-button color="primary" (click)="resend()" [disabled]="loading">
+    {{ loading ? 'Enviando...' : 'Reenviar Email de Verificação' }}
+  </button>
+
+  <p>
+    <a routerLink="/login">Voltar para Login</a>
+  </p>
+</div>

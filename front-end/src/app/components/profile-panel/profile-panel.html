@@ -1,0 +1,46 @@
+<mat-sidenav mode="side" opened class="profile-sidenav">
+  <h2>Minha Conta</h2>
+
+  <form [formGroup]="profileForm" (ngSubmit)="updateProfile()">
+
+    <mat-form-field class="full-width">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="name" />
+      <mat-error *ngIf="profileForm.get('name')?.hasError('required')">O campo nome é obrigatório</mat-error>
+      <mat-error *ngIf="profileForm.get('name')?.hasError('maxlength')">Nome muito longo</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+      <mat-error *ngIf="profileForm.get('email')?.hasError('required')">Email é obrigatório</mat-error>
+      <mat-error *ngIf="profileForm.get('email')?.hasError('email')">Email inválido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Nova senha</mat-label>
+      <input matInput type="password" formControlName="password" />
+      <mat-error *ngIf="profileForm.get('password')?.hasError('minlength')">Senha deve ter pelo menos 8 caracteres</mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="full-width">
+      <mat-label>Confirme a senha</mat-label>
+      <input matInput type="password" formControlName="password_confirmation" />
+      <mat-error *ngIf="profileForm.hasError('passwordMismatch')">As senhas não coincidem</mat-error>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" type="submit">Salvar</button>
+  </form>
+
+  <hr />
+
+  <h3>Excluir conta</h3>
+  <form [formGroup]="deleteForm" (ngSubmit)="deleteAccount()">
+    <mat-form-field class="full-width">
+      <mat-label>Confirme sua senha</mat-label>
+      <input matInput type="password" formControlName="password" />
+      <mat-error *ngIf="deleteForm.get('password')?.hasError('required')">Senha é obrigatória</mat-error>
+    </mat-form-field>
+    <button mat-raised-button color="warn" type="submit">Remover conta</button>
+  </form>
+</mat-sidenav>

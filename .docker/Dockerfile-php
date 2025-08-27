@@ -1,0 +1,55 @@
+FROM php:8.3-fpm
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+LABEL maintainer="Jociel Fernandes <jociel@agencia3s.com.br>"
+LABEL version="lasted"
+
+# Instala dependências básicas e Nginx
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    nginx supervisor curl ca-certificates \
+    nano vim-tiny unzip zip git \
+    pkg-config dirmngr gnupg \
+    && pecl channel-update pecl.php.net
+
+# Extensões Comuns do PHP
+RUN apt-get install -y --no-install-recommends liblz4-dev libicu-dev libmsgpack-dev \
+    && docker-php-ext-install -j$(nproc) bcmath intl pdo pdo_mysql mysqli \
+    && pecl install -o -f msgpack \
+    && docker-php-ext-enable msgpack
+
+# Extensões para trabalhar com imagens
+RUN apt-get install -y --no-install-recommends \
+    libpng-dev libjpeg-dev libfreetype6-dev libwebp-dev libmagickwand-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg --with-webp \
+    && docker-php-ext-install -j$(nproc) gd exif \
+    && pecl install -o -f imagick && docker-php-ext-enable imagick
+
+# Redis
+RUN pecl install -o -f redis && docker-php-ext-enable redis
+
+# Xdebug (útil para desenvolvimento)
+RUN pecl install -o -f xdebug && docker-php-ext-enable xdebug
+
+# Node.js e NPM (para build do frontend dentro do container, se necessário)
+# ARG NODE_VERSION=20
+# RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
+#    && apt-get install -y nodejs
+
+# Composer (instalador de dependências do PHP)
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+# Limpa o cache
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Cria diretórios de log
+RUN mkdir -p /var/www/logs /var/www/logs/php /var/www/logs/nginx
+
+# Copia o script de inicialização
+COPY ./.docker/conf.d/backend-init.sh /start.sh
+RUN chmod +x /start.sh
+
+EXPOSE 80 443
+
+# Define o ponto de entrada do container
+CMD ["/start.sh"]

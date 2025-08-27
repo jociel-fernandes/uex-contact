@@ -1,0 +1,19 @@
+.logout-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+
+  p {
+    margin-bottom: 16px;
+    font-weight: bold;
+    color: #3f51b5;
+  }
+
+  mat-progress-spinner {
+    width: 50px;
+    height: 50px;
+  }
+}
